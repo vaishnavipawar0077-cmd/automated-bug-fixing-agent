@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Bug Fixing Agent</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 35px 16px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            color: #1e293b;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px #0005;
+        }
+
+        h1 { text-align: center; color: #243b55; }
+        label { display: block; margin-top: 18px; font-weight: bold; }
+
+        select, textarea, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        select, textarea {
+            border: 1px solid #cbd5e1;
+        }
+
+        textarea {
+            height: 250px;
+            font-family: Consolas, monospace;
+            resize: vertical;
+        }
+
+        button {
+            border: none;
+            background: #243b55;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover { background: #365b80; }
+
+        .result {
+            margin-top: 22px;
+            padding: 18px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .error { color: #b91c1c; }
+        .success { color: #166534; }
+
+        @media (max-width: 600px) {
+            .container { padding: 18px; }
+            h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Automated Bug Fixing Agent</h1>
+    <p style="text-align:center">Write, test and run code in multiple languages.</p>
+
+    <form action="/check" method="POST">
+       
+        <label for="language">Select Language</label>
+
+<select name="language" id="language" required>
+    <option value="python">Python</option>
+    <option value="java">Java</option>
+    <option value="c">C</option>
+    <option value="cpp">C++</option>
+</select>
+        
+
+
+        <label for="code">Enter Your Code</label>
+        <textarea id="code" name="code" placeholder="Paste your code here..." required>{{ code or '' }}</textarea>
+
+        <button type="submit">Run / Detect Bug</button>
+    </form>
+
+    {% if error %}
+    <div class="result error">
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result">
+        <h2 class="{% if result == 'No Error Found' %}success{% else %}error{% endif %}">
+            {{ result }}
+        </h2>
+        <h3>Output / Suggestion</h3>
+        <pre>{{ suggestion }}</pre>
+
+        <h3>Submitted Code</h3>
+        <pre>{{ fixed_code }}</pre>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
